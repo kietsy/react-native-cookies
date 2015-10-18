@@ -9,19 +9,13 @@ RCT_EXPORT_METHOD(set:(NSDictionary *)props callback:(RCTResponseSenderBlock)cal
     NSString *name = [RCTConvert NSString:props[@"name"]];
     NSString *value = [RCTConvert NSString:props[@"value"]];
     NSString *domain = [RCTConvert NSString:props[@"domain"]];
-    NSString *origin = [RCTConvert NSString:props[@"origin"]];
     NSString *path = [RCTConvert NSString:props[@"path"]];
-    NSString *version = [RCTConvert NSString:props[@"version"]];
-    NSDate *expiration = [RCTConvert NSDate:props[@"expiration"]];
 
     NSMutableDictionary *cookieProperties = [NSMutableDictionary dictionary];
     [cookieProperties setObject:name forKey:NSHTTPCookieName];
     [cookieProperties setObject:value forKey:NSHTTPCookieValue];
     [cookieProperties setObject:domain forKey:NSHTTPCookieDomain];
-    [cookieProperties setObject:origin forKey:NSHTTPCookieOriginURL];
     [cookieProperties setObject:path forKey:NSHTTPCookiePath];
-    [cookieProperties setObject:version forKey:NSHTTPCookieVersion];
-    [cookieProperties setObject:expiration forKey:NSHTTPCookieExpires];
 
     NSLog(@"SETTING COOKIE");
     NSLog(@"%@", cookieProperties);
@@ -55,6 +49,7 @@ RCT_EXPORT_METHOD(getAll:(RCTResponseSenderBlock)callback) {
         [d setObject:c.name forKey:@"name"];
         [d setObject:c.domain forKey:@"domain"];
         [d setObject:c.path forKey:@"path"];
+        [d setObject:[@(c.version) stringValue] forKey:@"version"];
         [cookies setObject:d forKey:c.name];
     }
     callback(@[cookies, @"success"]);
